@@ -1,0 +1,21 @@
+.product-image {
+    transition: transform .5s, filter 1.5s ease-in-out;
+}
+
+.product-image:hover {
+    transform: scale(1.07);
+    -webkit-transform: scale(1.07);
+    -moz-transform: scale(1.07);
+    -ms-transform: scale(1.07);
+    -o-transform: scale(1.07);
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+.product-name {
+    padding: 10px 0;
+    font-size: 18px;
+}
