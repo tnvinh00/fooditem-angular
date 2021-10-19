@@ -1,0 +1,94 @@
+<h2 class="text-center mt-5 mb-3">Manage Foods</h2>
+<div class="d-flex justify-content-between">
+    <mat-form-field appearance="outline">
+        <mat-label>Select filter food</mat-label>
+        <mat-select [(ngModel)]="filter" (ngModelChange)="changeFilter($event)">
+            <mat-option value="all">All Food</mat-option>
+            <mat-option value="available">Available</mat-option>
+            <mat-option value="deleted">Deleted</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Search food here</mat-label>
+        <input matInput placeholder="Ex: Pizza" [(ngModel)]="searchString" (ngModelChange)="searchFood($event)">
+    </mat-form-field>
+</div>
+
+<ng-template [ngIf]="listFood">
+    <!-- <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> No. </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="imgSource">
+            <th mat-header-cell *matHeaderCellDef> Image </th>
+            <td mat-cell *matCellDef="let element">
+                <img src="{{element.imgSource}}" style="height: 100px;" alt="" onerror="this.onerror=null;this.src='https://i.imgur.com/QJzMcF1.png'">
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
+            <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Price </th>
+            <td mat-cell *matCellDef="let element"> ${{element.price | number:'1.2-2'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="rate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Rate </th>
+            <td mat-cell *matCellDef="let element"> {{element.rate | number:'1.1-2'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="deleted">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+            <td mat-cell *matCellDef="let element"> {{element.deleted}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table> -->
+    <!-- <mat-paginator [pageSizeOptions]="[5, 10, 14]" showFirstLastButtons></mat-paginator> -->
+
+    <table matSort (matSortChange)="sortData($event)" class="table">
+        <tr>
+            <th class="align-middle"> Id </th>
+            <th class="align-middle"> Image </th>
+            <th class="align-middle" mat-sort-header="title">Title</th>
+            <th class="align-middle" mat-sort-header="price">Price</th>
+            <th class="align-middle" mat-sort-header="rate">Rate</th>
+            <th class="align-middle" mat-sort-header="deleted">Status</th>
+            <th></th>
+        </tr>
+
+        <tr *ngFor="let item of sortedData; index as indexOfList">
+            <td class="align-middle">{{indexOfList + 1}}</td>
+            <td class="align-middle">
+                <a routerLink='/detail/{{item.id}}'>
+                    <img src="{{item.imgSource}}" style="height: 100px; width: 162px" alt="" onerror="this.onerror=null;this.src='https://i.imgur.com/QJzMcF1.png'">
+                </a>
+            </td>
+            <td class="align-middle">{{item.title}}</td>
+            <td class="align-middle">${{item.price | number:'1.2-2'}}</td>
+            <td class="align-middle">{{item.rate | number:'1.1-2'}}</td>
+            <td class="align-middle">{{item.deleted}}</td>
+            <td class="align-middle">
+                <button mat-raised-button color="warn" class="mr-1">
+                    <mat-icon class="text-small">remove_red_eye</mat-icon>
+                    <span>View</span>
+                </button>
+                <a mat-raised-button *ngIf="item.deleted == false" color="primary" routerLink="/dashboard/editfood/{{item.id}}">
+                    <mat-icon class="text-small">edit</mat-icon>
+                    <span>Edit</span>
+                </a>
+            </td>
+        </tr>
+    </table>
+</ng-template>
+
+<div class="loading-spinner" *ngIf="loading">
+    <mat-spinner color="warn" diameter=50></mat-spinner>
+</div>
