@@ -1,0 +1,44 @@
+<!-- <mat-tab-group mat-stretch-tabs class="mt-5" dynamicHeight [color]="'warn'">
+    <mat-tab>
+        <ng-template mat-tab-label>
+            Add food
+            <mat-icon class="ml-2">add_circle_outline</mat-icon>
+        </ng-template>
+        <ng-template matTabContent>
+            <app-add-food></app-add-food>
+        </ng-template>
+    </mat-tab>
+    <mat-tab>
+        <ng-template mat-tab-label>
+            Manage Food
+            <mat-icon class="ml-2">format_list_bulleted</mat-icon>
+        </ng-template>
+        <ng-template matTabContent>
+            List Foods
+        </ng-template>
+    </mat-tab>
+    <mat-tab>
+        <ng-template mat-tab-label>
+            Edit
+            <mat-icon class="ml-2">edit</mat-icon>
+        </ng-template>
+        <ng-template matTabContent>
+            Edit Food
+        </ng-template>
+    </mat-tab>
+</mat-tab-group> -->
+<nav mat-tab-nav-bar mat-stretch-tabs class="mt-5" dynamicHeight [color]="'warn'">
+    <a mat-tab-link routerLink='./addfood' (click)="activeLink = 'addfood'" [active]="activeLink == 'addfood'">
+        Add food
+        <mat-icon class="ml-2">add_circle_outline</mat-icon>
+    </a>
+    <a mat-tab-link routerLink='./managefood' (click)="activeLink = 'managefood'" [active]="activeLink == 'managefood'">
+        Manage Food
+        <mat-icon class="ml-2">format_list_bulleted</mat-icon>
+    </a>
+    <a mat-tab-link routerLink='./editfood' (click)="activeLink = 'editfood'" [active]="activeLink == 'editfood'">
+        Edit
+        <mat-icon class="ml-2">edit</mat-icon>
+    </a>
+</nav>
+<router-outlet></router-outlet>
