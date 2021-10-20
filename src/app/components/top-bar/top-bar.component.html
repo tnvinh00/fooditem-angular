@@ -20,7 +20,10 @@
                 </li> -->
             </ul>
             <div class="menu-toggle">
-                <span></span><span></span><span></span>
+                <a routerLink="/cart" matTooltip="Cart" class="btn btn-outline-danger rounded-lg">
+                    <mat-icon aria-hidden="false" matBadge="{{numberofCartItem}}" matBadgeColor="accent">shopping_cart
+                    </mat-icon>
+                </a>
             </div>
             <div class="header-auth">
                 <!-- <li class="menu-item list-unstyled align-middle p-0 m-0">
