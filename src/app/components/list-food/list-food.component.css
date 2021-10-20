@@ -1,5 +1,6 @@
 .product-image {
     transition: transform .5s, filter 1.5s ease-in-out;
+    height: 180px;
 }
 
 .product-image:hover {
@@ -8,6 +9,12 @@
     -moz-transform: scale(1.07);
     -ms-transform: scale(1.07);
     -o-transform: scale(1.07);
+}
+
+@media screen and (max-width: 576px) {
+    .product-image {
+        height: 140px
+    }
 }
 
 .img-fluid {
