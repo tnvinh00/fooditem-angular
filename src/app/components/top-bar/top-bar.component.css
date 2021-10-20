@@ -2,7 +2,8 @@
     padding-top: 15px;
     padding-bottom: 15px;
 }
-.header-logo{
+
+.header-logo {
     color: #FE7A63;
 }
 
@@ -50,6 +51,7 @@
 
 .menu-link {
     color: inherit;
+    font-weight: 600;
     display: inline-block;
 }
 
@@ -65,6 +67,10 @@
     height: 3px;
     background-color: #0b132a;
     display: block;
+}
+
+.mat-form-field-wrapper {
+    padding-bottom: 0!important;
 }
 
 @media (hover: hover) {
