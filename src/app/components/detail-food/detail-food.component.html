@@ -1,22 +1,36 @@
-<div class="row product my-5">
-    <div class="col-md-6 col-xs-12 mb-4">
-        <img src="{{food.imgSource}}" />
+<ng-template [ngIf]="food" [ngIfElse]="loading">
+    <div class="row product my-5">
+        <div class="col-md-6 col-xs-12 mb-4">
+            <img src="{{food.imgSource}}" class="image-food" />
+        </div>
+        <div class="col-md-6 col-xs-12 px-4">
+            <div class="mb-3">
+                <span class="h2 text-dark">{{food.title}}</span>
+            </div>
+            <div>
+                <strong class="text-dark text-lg align-middle"> {{food.rate}}</strong>
+                <mat-icon aria-hidden="false" color="accent" class="mr-3">star</mat-icon>•
+                <span class="ml-3 align-middle text-small text-muted">{{food.updatedAt | date}}</span>
+            </div>
+
+            <div class="form-inline my-3 mx-0 bg-light rounded-lg p-3">
+                <span class="text-danger h3 m-0 p-0"><strong>${{food.price | number:'1.2-2'}}</strong></span>
+            </div>
+            <div class="form-inline my-4 mx-0">
+                <button class="btn btn-danger min-width-200" [swal]="{ title: 'Added to cart!', icon: 'success' }">
+                    <mat-icon aria-hidden="false">add_shopping_cart</mat-icon> Add to cart
+                </button>
+            </div>
+            <div class="mb-5">
+                <mat-icon aria-hidden="false">navigate_next</mat-icon>
+                <span class="text-dark align-middle">{{food.desc}}</span>
+            </div>
+        </div>
     </div>
-    <div class="col-md-6 col-xs-12 px-4">
-        <div class="mb-3">
-            <span class="h2 text-dark">{{food.title}}</span>
-        </div>
-        {{food.desc}}
-        <strong class="text-dark text-lg"> {{food.rate}}</strong>
+</ng-template>
 
-        <div class="form-inline my-3 mx-0 bg-light rounded-lg p-3">
-            <span class="text-danger h3 m-0 p-0"><strong>${{food.price}}</strong></span>
-        </div>
-        <div class="form-inline my-3 mx-0">
-
-        </div>
-        <div class="mb-5">
-
-        </div>
+<ng-template #loading>
+    <div class="loading-spinner">
+        <mat-spinner color="warn" diameter=50></mat-spinner>
     </div>
-</div>
+</ng-template>
