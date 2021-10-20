@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { FoodService } from 'src/app/food.service';
 import { Food } from 'src/app/models/food';
 import Swal from 'sweetalert2';
@@ -16,10 +17,12 @@ export class AddFoodComponent implements OnInit {
     @ViewChild('FormAddFood') formAddFood: NgForm;
 
     constructor(
-        private foodService: FoodService
+        private foodService: FoodService,
+        private titleService: Title
     ) { }
 
     ngOnInit() {
+        this.titleService.setTitle("Add new food " + " - Best food for your meals, your health!")
     }
 
     addNewFood_Click() {
