@@ -1,13 +1,13 @@
 <app-carousel></app-carousel>
-<div class="d-flex justify-content-between">
-    <mat-form-field appearance="outline" class="w-50 mb-1">
+<div class="d-flex justify-content-between row">
+    <mat-form-field appearance="outline" class="col-12 col-sm-6 mb-1">
         <mat-label>What do you want to search?</mat-label>
         <input matInput placeholder="Ex: Pizza" [(ngModel)]="searchString" (ngModelChange)="searchFood($event)">
         <button mat-button *ngIf="searchString" matSuffix mat-icon-button aria-label="Clear" (click)="searchString=''">
             <mat-icon>close</mat-icon>
         </button>
     </mat-form-field>
-    <mat-form-field appearance="fill" class="w-40">
+    <mat-form-field appearance="fill" class="col-6 col-md-3">
         <mat-label>Sort by </mat-label>
         <mat-select [(ngModel)]="sortby" (ngModelChange)="changeSort($event)">
             <mat-option value="increase">Price: Low to High</mat-option>
@@ -20,7 +20,7 @@
 <ng-template [ngIf]="data.length > 3" [ngIfElse]="loading">
     <div class="food-list" style="margin: 0 -6px" id="list-foods">
         <div class="row m-0 w-100">
-            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 px-2" *ngFor="let item of sortedData; index as indexOfList">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-6 col-xs-6 px-2" *ngFor="let item of sortedData; index as indexOfList">
                 <div class="product-box border d-block my-2 rounded-lg">
                     <div class="d-flex justify-content-between position-absolute w-100 z-index-10">
                         <div class="label-sale text-small">
@@ -31,7 +31,7 @@
                     </div>
                     <div class="product-thum w-auto overflow-hidden">
                         <a routerLink="/detail/{{item.id}}">
-                            <img src="{{item.imgSource}}" class="product-image rounded-top" alt="ProductImage" style="height: 180px;" onerror="this.onerror=null;this.src='https://i.imgur.com/QJzMcF1.png'">
+                            <img src="{{item.imgSource}}" class="product-image rounded-top w-100" alt="ProductImage" style="height: 180px;" onerror="this.onerror=null;this.src='https://i.imgur.com/QJzMcF1.png'">
                         </a>
                     </div>
                     <div class="product-info p-2">
