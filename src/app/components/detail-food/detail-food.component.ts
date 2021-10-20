@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FoodService } from 'src/app/food.service';
 import { Title } from '@angular/platform-browser';
 import Swal from 'sweetalert2';
+import { CartService } from 'src/app/cart.service';
 
 @Component({
     selector: 'app-detail-food',
@@ -14,6 +15,7 @@ export class DetailFoodComponent implements OnInit {
     food: Food = null;
     constructor(
         private foodService: FoodService,
+        private cartService: CartService,
         private route: ActivatedRoute,
         private titleService: Title,
         private router: Router,
@@ -37,5 +39,9 @@ export class DetailFoodComponent implements OnInit {
                 this.router.navigate(['/error'])
             }
         })
+    }
+
+    addtoCart() {
+        this.cartService.addtoCart(this.food);
     }
 }
