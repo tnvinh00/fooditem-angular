@@ -1,6 +1,9 @@
 .header {
     padding-top: 15px;
     padding-bottom: 15px;
+    position: fixed;
+    width: 100%;
+    z-index: 111;
 }
 
 .header-logo {

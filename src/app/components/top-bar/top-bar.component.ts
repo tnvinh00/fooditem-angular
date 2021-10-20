@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CartService } from 'src/app/cart.service';
 
 @Component({
@@ -8,8 +8,6 @@ import { CartService } from 'src/app/cart.service';
 })
 export class TopBarComponent implements OnInit {
     numberofCartItem: number;
-    searchString;
-    
     constructor(
         private cartService: CartService,
     ) {
