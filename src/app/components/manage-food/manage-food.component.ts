@@ -2,8 +2,11 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 // import { MatPaginator } from '@angular/material/paginator';
 // import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { Title } from '@angular/platform-browser';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FoodService } from 'src/app/food.service';
 import { Food } from 'src/app/models/food';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-manage-food',
@@ -11,10 +14,13 @@ import { Food } from 'src/app/models/food';
     styleUrls: ['./manage-food.component.css']
 })
 export class ManageFoodComponent implements OnInit {
+    foodModal: Food = new Food();
     listFood: Food[];
     filter: string = 'all';
     loading: boolean = false;
-    searchString: string;
+    searchString: string = '';
+
+    clean: boolean = false;
 
     sortedData: Food[];
     // displayedColumns = ['id', 'imgSource', 'title', 'price', 'rate', 'deleted']
@@ -23,11 +29,14 @@ export class ManageFoodComponent implements OnInit {
     // @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
     constructor(
-        private foodService: FoodService
+        private foodService: FoodService,
+        private titleService: Title,
+        private modalService: NgbModal
     ) { }
 
     ngOnInit() {
         this.changeFilter('all');
+        this.titleService.setTitle("Manage Food" + " - Best food for your meals, your health!")
     }
 
     changeFilter(e) {
@@ -50,7 +59,105 @@ export class ManageFoodComponent implements OnInit {
                 this.loading = false;
             }); break;
         }
-        
+    }
+
+    openModal(content, index: number){
+        this.foodModal = this.sortedData[index];
+        this.modalService.open(content);
+    }
+
+    delete_Click(id: number) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Food will be delete, you can be restore later!",
+            icon: "warning",
+            showCancelButton: true,
+        })
+            .then((willDelete) => {
+                if (willDelete.isConfirmed) {
+                    this.foodService.deletebyId(id).subscribe(
+                        (res: any) => {
+                            Swal.fire({
+                                title: "Good job!",
+                                text: "Deleted success!",
+                                icon: "success",
+                            })
+                            this.changeFilter(this.filter);
+                        },
+                        (err: any) => {
+                            Swal.fire({
+                                title: "Failed!",
+                                text: err,
+                                icon: "error",
+                            })
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+    }
+
+    restore_Click(id: number) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Food will be restore!",
+            icon: "warning",
+            showCancelButton: true,
+        })
+            .then((willDelete) => {
+                if (willDelete.isConfirmed) {
+                    this.foodService.restore(id).subscribe(
+                        (res: any) => {
+                            Swal.fire({
+                                title: "Good job!",
+                                text: "Restored success!",
+                                icon: "success",
+                            })
+                            this.changeFilter(this.filter);
+                        },
+                        (err: any) => {
+                            Swal.fire({
+                                title: "Failed!",
+                                text: err,
+                                icon: "error",
+                            })
+                            console.log(err);
+                        }
+                    );
+                }
+            });
+    }
+
+    deleteForever_Click(id: number){
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Food will be delete forever? You can't restore it later.",
+            icon: "warning",
+            showCancelButton: true,
+        })
+            .then((willDelete) => {
+                if (willDelete.isConfirmed) {
+                    this.foodService.deleteForever(id).subscribe(
+                        (res: any) => {
+                            // console.log(res);
+                            Swal.fire({
+                                title: "Good job!",
+                                text: "Food was be deleted forever!",
+                                icon: "success",
+                            })
+                            this.changeFilter(this.filter);
+                        },
+                        (err: any) => {
+                            Swal.fire({
+                                title: "Failed!",
+                                text: err,
+                                icon: "error",
+                            })
+                            console.log(err);
+                        }
+                    );
+                }
+            });
     }
 
     searchFood(e) {

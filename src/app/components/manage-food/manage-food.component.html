@@ -1,7 +1,7 @@
 <h2 class="text-center mt-5 mb-3">Manage Foods</h2>
 <div class="d-flex justify-content-between">
     <mat-form-field appearance="outline">
-        <mat-label>Select filter food</mat-label>
+        <mat-label>Select filter food ({{sortedData?.length}})</mat-label>
         <mat-select [(ngModel)]="filter" (ngModelChange)="changeFilter($event)">
             <mat-option value="all">All Food</mat-option>
             <mat-option value="available">Available</mat-option>
@@ -11,6 +11,9 @@
     <mat-form-field appearance="outline">
         <mat-label>Search food here</mat-label>
         <input matInput placeholder="Ex: Pizza" [(ngModel)]="searchString" (ngModelChange)="searchFood($event)">
+        <button mat-button *ngIf="searchString" matSuffix mat-icon-button aria-label="Clear" (click)="searchString=''; searchFood('')">
+            <mat-icon>close</mat-icon>
+        </button>
     </mat-form-field>
 </div>
 
@@ -52,43 +55,95 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table> -->
     <!-- <mat-paginator [pageSizeOptions]="[5, 10, 14]" showFirstLastButtons></mat-paginator> -->
+    <div class="table-responsive">
+        <table matSort (matSortChange)="sortData($event)" class="table">
+            <tr>
+                <th class="align-middle"> Id </th>
+                <th class="align-middle"> Image </th>
+                <th class="align-middle" mat-sort-header="title">Title</th>
+                <th class="align-middle" mat-sort-header="price">Price</th>
+                <th class="align-middle" mat-sort-header="rate">Rate</th>
+                <th class="align-middle" mat-sort-header="deleted">Status</th>
+                <th class="align-middle text-center">Action</th>
+            </tr>
 
-    <table matSort (matSortChange)="sortData($event)" class="table">
-        <tr>
-            <th class="align-middle"> Id </th>
-            <th class="align-middle"> Image </th>
-            <th class="align-middle" mat-sort-header="title">Title</th>
-            <th class="align-middle" mat-sort-header="price">Price</th>
-            <th class="align-middle" mat-sort-header="rate">Rate</th>
-            <th class="align-middle" mat-sort-header="deleted">Status</th>
-            <th></th>
-        </tr>
-
-        <tr *ngFor="let item of sortedData; index as indexOfList">
-            <td class="align-middle">{{indexOfList + 1}}</td>
-            <td class="align-middle">
-                <a routerLink='/detail/{{item.id}}'>
-                    <img src="{{item.imgSource}}" style="height: 100px; width: 162px" alt="" onerror="this.onerror=null;this.src='https://i.imgur.com/QJzMcF1.png'">
-                </a>
-            </td>
-            <td class="align-middle">{{item.title}}</td>
-            <td class="align-middle">${{item.price | number:'1.2-2'}}</td>
-            <td class="align-middle">{{item.rate | number:'1.1-2'}}</td>
-            <td class="align-middle">{{item.deleted}}</td>
-            <td class="align-middle">
-                <button mat-raised-button color="warn" class="mr-1">
-                    <mat-icon class="text-small">remove_red_eye</mat-icon>
-                    <span>View</span>
-                </button>
-                <a mat-raised-button *ngIf="item.deleted == false" color="primary" routerLink="/dashboard/editfood/{{item.id}}">
-                    <mat-icon class="text-small">edit</mat-icon>
-                    <span>Edit</span>
-                </a>
-            </td>
-        </tr>
-    </table>
+            <tr *ngFor="let item of sortedData; index as indexOfList">
+                <td class="align-middle">{{indexOfList + 1}}</td>
+                <td class="align-middle">
+                    <a routerLink='/detail/{{item.id}}'>
+                        <img src="{{item.imgSource}}" style="height: 100px; width: 162px" alt="" onerror="this.onerror=null;this.src='https://i.imgur.com/QJzMcF1.png'">
+                    </a>
+                </td>
+                <td class="align-middle">{{item.title}}</td>
+                <td class="align-middle">${{item.price | number:'1.2-2'}}</td>
+                <td class="align-middle">{{item.rate | number:'1.1-2'}}</td>
+                <td class="align-middle">{{!item.deleted}}</td>
+                <td class="align-middle text-center">
+                    <button mat-mini-fab matTooltip="View" color="primary" (click)="openModal(content, indexOfList)" class="mr-1" *ngIf="item.deleted == false">
+                        <mat-icon class="">remove_red_eye</mat-icon>
+                        <span></span>
+                    </button>
+                    <a mat-mini-fab *ngIf="item.deleted == false" matTooltip="Edit" class="mr-1" color="accent" routerLink="/dashboard/editfood/{{item.id}}">
+                        <mat-icon class="">edit</mat-icon>
+                        <span></span>
+                    </a>
+                    <a mat-mini-fab *ngIf="item.deleted == false" matTooltip="Delete" class="mr-1" color="warn" (click)="delete_Click(item.id)">
+                        <mat-icon class="">delete</mat-icon>
+                        <span></span>
+                    </a>
+                    <a *ngIf="item.deleted == true" matTooltip="Restore" class="btn btn-sm btn-primary mr-1" (click)="restore_Click(item.id)">
+                        <mat-icon class="">restore</mat-icon>
+                        <span></span>
+                    </a>
+                    <a *ngIf="item.deleted == true" matTooltip="Deleted Forever" class="btn btn-sm btn-danger mr-1" (click)="deleteForever_Click(item.id)">
+                        <mat-icon class="">delete_forever</mat-icon>
+                        <span></span>
+                    </a>
+                </td>
+            </tr>
+            <tr class="text-center">
+                <td colspan="7" *ngIf="sortedData.length <= 0" class="pt-5">
+                    <h5>No food was found!</h5>
+                </td>
+            </tr>
+        </table>
+    </div>
 </ng-template>
 
 <div class="loading-spinner" *ngIf="loading">
     <mat-spinner color="warn" diameter=50></mat-spinner>
 </div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">{{foodModal.title}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <dl class="row">
+            <dt class="col-sm-3">Id</dt>
+            <dd class="col-sm-9">{{foodModal.id}}</dd>
+            <dt class="col-sm-3">Image</dt>
+            <dd class="col-sm-9">
+                <img src="{{foodModal.imgSource}}" style="max-height: 200px;" onerror="this.onerror=null;this.src='https://i.imgur.com/QJzMcF1.png'" />
+            </dd>
+            <dt class="col-sm-3">Description</dt>
+            <dd class="col-sm-9">{{foodModal.desc}}</dd>
+            <dt class="col-sm-3">Price</dt>
+            <dd class="col-sm-9">{{foodModal.price | number:'1.2-2'}}</dd>
+            <dt class="col-sm-3">Rate</dt>
+            <dd class="col-sm-9">{{foodModal.rate | number:'1.1-2'}}</dd>
+            <dt class="col-sm-3">CreateAt</dt>
+            <dd class="col-sm-9">{{foodModal.createdAt | date:'d/M/yyyy HH:mm:ss'}}</dd>
+            <dt class="col-sm-3">UpdatedAt</dt>
+            <dd class="col-sm-9">{{foodModal.updatedAt | date:'d/M/yyyy HH:mm:ss'}}</dd>
+            <dt class="col-sm-3">IsDeleted</dt>
+            <dd class="col-sm-9">{{foodModal.deleted}}</dd>
+        </dl>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Close</button>
+    </div>
+</ng-template>
