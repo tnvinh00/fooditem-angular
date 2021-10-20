@@ -13,19 +13,23 @@ export class CartService {
     ) { }
 
     OnInit() {
+        if (JSON.parse(localStorage.getItem('fooditem')) == null){
+            localStorage.setItem("fooditem", JSON.stringify([]));
+        }
     }
 
     setListcart(cartItem: CartItem[]) {
+        this.OnInit()
         let listcart;
         listcart = cartItem;
         localStorage.setItem("fooditem", JSON.stringify(listcart));
     }
-
     addtoCart(food) {
+        this.OnInit()
         let listcart;
         listcart = JSON.parse(localStorage.getItem('fooditem'));
         // Update item exist
-        if(listcart.find(item => item.id === food.id)) {
+        if (listcart.find(item => item.id === food.id)) {
             // Get index of item exist
             let index = listcart.findIndex(item => item.id === food.id)
             let temp = {
@@ -33,7 +37,7 @@ export class CartService {
                 imgSource: food.imgSource,
                 quantity: listcart[index].quantity + 1,
                 price: food.price,
-                subtotal: (listcart[index].quantity + 1)*food.price,
+                subtotal: (listcart[index].quantity + 1) * food.price,
             };
             listcart.splice(index, 1);
             listcart.unshift(temp);
@@ -41,7 +45,7 @@ export class CartService {
             this.toastr.success('Updated your cart!', 'Updated');
         }
         // Add new item to cart
-        else{
+        else {
             let temp = {
                 id: food.id,
                 imgSource: food.imgSource,
@@ -56,7 +60,8 @@ export class CartService {
         return listcart;
     }
 
-    deleteItemCart(index: number){
+    deleteItemCart(index: number) {
+        this.OnInit()
         let listcart: CartItem[];
         listcart = JSON.parse(localStorage.getItem('fooditem'));
         listcart.splice(index, 1)
@@ -65,18 +70,21 @@ export class CartService {
     }
 
     getTotal() {
+        this.OnInit()
         let listcart;
         listcart = JSON.parse(localStorage.getItem('fooditem'));
         return listcart.reduce((prev, curr) => prev + curr["price"] * curr["quantity"], 0);
     }
 
     getNuberofCart() {
+        this.OnInit()
         let listcart;
         listcart = JSON.parse(localStorage.getItem('fooditem'));
         return listcart ? listcart.length : 0;
     }
 
     getListCart() {
+        this.OnInit()
         let listcart;
         listcart = JSON.parse(localStorage.getItem('fooditem'));
         return listcart;
