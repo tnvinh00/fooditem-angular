@@ -28,7 +28,7 @@
         </mat-form-field>
         <mat-form-field class="col-md-6 my-2" appearance="outline">
             <mat-label>Description</mat-label>
-            <input type="text" matInput required placeholder="Ex: Chicken very good" [(ngModel)]="food.desc" #desc="ngModel" name="desc" autocomplete="off">
+            <textarea type="text" matInput required placeholder="Ex: Chicken very good" [(ngModel)]="food.desc" #desc="ngModel" name="desc" autocomplete="off"></textarea>
             <mat-icon matSuffix>description</mat-icon>
             <mat-error *ngIf="desc.errors?.required">
                 Description is <b>required</b>

@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FoodService } from 'src/app/food.service';
 import { Food } from 'src/app/models/food';
@@ -18,20 +19,22 @@ export class EditFoodComponent implements OnInit {
     loading: boolean = false;
     onSubmit: boolean = false;
 
-    @ViewChild('FormEditFood') formAddFood: NgForm;
+    @ViewChild('FormEditFood') formEditFood: NgForm;
 
     constructor(
         private foodService: FoodService,
         private route: ActivatedRoute,
-        private router: Router
+        private router: Router,
+        private titleService: Title,
     ) { }
 
     ngOnInit() {
         window.scrollTo(0, 200);
+        this.titleService.setTitle("Edit " + " - Best food for your meals, your health!")
         this.foodService.get().subscribe((res: any) => {
             this.listFood = res
         })
-
+        
         let idParam = this.route.snapshot.params['id']
         if (idParam)
             this.chooseFood = idParam;
@@ -49,6 +52,7 @@ export class EditFoodComponent implements OnInit {
                 this.food = res
                 this.loading = false;
                 this.isChooseFood = true;
+                this.titleService.setTitle("Edit " + this.food.title + " - Best food for your meals, your health!")
             },
             (err: any) => {
                 this.loading = false;
@@ -67,6 +71,37 @@ export class EditFoodComponent implements OnInit {
         this.getFood(e);
     }
     updateFood_Click() {
+        this.onSubmit = true;
 
+        if (!this.formEditFood.invalid) {
+            console.log(this.food)
+            this.foodService.updateFood(this.food).subscribe(
+                (res: any) => {
+                    console.log(res)
+                    Swal.fire({
+                        title: "Good job!",
+                        text: "Updated success!",
+                        icon: "success",
+                    })
+                    this.onSubmit = false;
+                },
+                (err: any) => {
+                    Swal.fire({
+                        title: "Failed!",
+                        text: err,
+                        icon: "error",
+                    })
+                    this.onSubmit = false;
+                }
+            )
+        }
+        else {
+            Swal.fire({
+                title: "Warning!",
+                text: "You must type all required fields!",
+                icon: "warning",
+            })
+            this.onSubmit = false;
+        }
     }
 }
