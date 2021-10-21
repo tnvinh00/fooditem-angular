@@ -58,7 +58,7 @@
     <div class="table-responsive">
         <table matSort (matSortChange)="sortData($event)" class="table">
             <tr>
-                <th class="align-middle"> Id </th>
+                <th class="align-middle" mat-sort-header="id"> No. </th>
                 <th class="align-middle"> Image </th>
                 <th class="align-middle" mat-sort-header="title">Title</th>
                 <th class="align-middle" mat-sort-header="price">Price</th>
@@ -77,7 +77,7 @@
                 <td class="align-middle">{{item.title}}</td>
                 <td class="align-middle">${{item.price | number:'1.2-2'}}</td>
                 <td class="align-middle">{{item.rate | number:'1.1-2'}}</td>
-                <td class="align-middle">{{!item.deleted}}</td>
+                <td class="align-middle">{{item.status}}</td>
                 <td class="align-middle text-center">
                     <button mat-mini-fab matTooltip="View" color="primary" (click)="openModal(content, indexOfList)" class="mr-1" *ngIf="item.deleted == false">
                         <mat-icon class="">remove_red_eye</mat-icon>

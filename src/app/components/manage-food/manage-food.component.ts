@@ -8,11 +8,17 @@ import { FoodService } from 'src/app/services/food.service';
 import { Food } from 'src/app/models/food';
 import Swal from 'sweetalert2';
 
+
+enum Estatus{
+    true = "Enable",
+    false = "Disabled"   
+}
 @Component({
     selector: 'app-manage-food',
     templateUrl: './manage-food.component.html',
     styleUrls: ['./manage-food.component.css']
 })
+
 export class ManageFoodComponent implements OnInit {
     foodModal: Food = new Food();
     listFood: Food[];
@@ -47,18 +53,28 @@ export class ManageFoodComponent implements OnInit {
                 this.listFood = res
                 this.sortedData = this.listFood.slice();
                 this.loading = false;
+                this.sortedData.map((food) => {
+                    food.status = food.deleted ? Estatus.true : Estatus.false;
+                })
             }); break;
             case 'available': this.foodService.get().subscribe((res: any) => {
                 this.listFood = res
                 this.sortedData = this.listFood.slice();
                 this.loading = false;
+                this.sortedData.map((food) => {
+                    food.status = food.deleted ? Estatus.true : Estatus.false;
+                })
             }); break;
             case 'deleted': this.foodService.getDeleted().subscribe((res: any) => {
                 this.listFood = res
                 this.sortedData = this.listFood.slice();
                 this.loading = false;
+                this.sortedData.map((food) => {
+                    food.status = food.deleted ? Estatus.true : Estatus.false;
+                })
             }); break;
         }
+        
     }
 
     openModal(content, index: number){
@@ -177,6 +193,7 @@ export class ManageFoodComponent implements OnInit {
         this.sortedData = data.sort((a, b) => {
             const isAsc = sort.direction === 'asc';
             switch (sort.active) {
+                case 'id': return compare(a.id, b.id, isAsc);
                 case 'title': return compare(a.title, b.title, isAsc);
                 case 'price': return compare(a.price, b.price, isAsc);
                 case 'rate': return compare(a.rate, b.rate, isAsc);
