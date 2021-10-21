@@ -20,7 +20,6 @@ export class TopBarComponent implements OnInit {
     ngOnInit(): void {
         this.middlewareService.getUpdateCart().subscribe(count => {
             this.numberofCartItem = count as number;
-            console.log(count);
         })
     }
 }

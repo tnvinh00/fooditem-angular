@@ -5,6 +5,7 @@ import { FoodService } from 'src/app/services/food.service';
 import { Title } from '@angular/platform-browser';
 import Swal from 'sweetalert2';
 import { CartService } from 'src/app/services/cart.service';
+import { MiddlewareService } from 'src/app/services/middleware.service';
 
 @Component({
     selector: 'app-detail-food',
@@ -19,6 +20,7 @@ export class DetailFoodComponent implements OnInit {
         private route: ActivatedRoute,
         private titleService: Title,
         private router: Router,
+        private middlewareService: MiddlewareService,
     ) { }
 
     ngOnInit() {
@@ -43,5 +45,6 @@ export class DetailFoodComponent implements OnInit {
 
     addtoCart() {
         this.cartService.addtoCart(this.food);
+        this.middlewareService.sendUpdateCart(this.cartService.getNuberofCart())
     }
 }
