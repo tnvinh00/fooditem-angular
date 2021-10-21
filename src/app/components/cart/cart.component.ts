@@ -28,6 +28,7 @@ export class CartComponent implements OnInit {
     ngOnInit() {
         // this.list.push(this.item);
         // this.cartService.setListcart(this.list);
+        window.scrollTo(0, 0);
         this.list = this.cartService.getListCart();
         this.total = this.cartService.getTotal();
         this.titleService.setTitle("Cart (" + this.list.length + ") - Best food for your meals, your health!");
