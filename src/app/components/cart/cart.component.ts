@@ -34,10 +34,6 @@ export class CartComponent implements OnInit {
         this.titleService.setTitle("Cart (" + this.list.length + ") - Best food for your meals, your health!");
     }
 
-    addtoCart(id: number){
-        this.cartService.setListcart(this.list);
-    }
-
     delete(index: number){
         Swal.fire({
             title: "Are you sure?",
@@ -48,7 +44,7 @@ export class CartComponent implements OnInit {
             .then((willDelete) => {
                 if (willDelete.isConfirmed) {
                     this.list = this.cartService.deleteItemCart(index);
-                    console.log(this.list)
+                    this.total = this.cartService.getTotal();
                 }
             });
     }
