@@ -1,7 +1,7 @@
 <ng-template [ngIf]="food" [ngIfElse]="loading">
     <div class="row product my-5">
         <div class="col-md-6 col-xs-12 mb-4">
-            <img src="{{food.imgSource}}" class="image-food" />
+            <img src="{{food.imgSource}}" onerror="this.onerror=null;this.src='https://i.imgur.com/QJzMcF1.png'" class="image-food" />
         </div>
         <div class="col-md-6 col-xs-12 px-4">
             <div class="mb-3">

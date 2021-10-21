@@ -1,6 +1,6 @@
 import { ToastrService } from 'ngx-toastr';
 import { Injectable } from '@angular/core';
-import { CartItem } from './models/cartitem';
+import { CartItem } from '../models/cartitem';
 
 @Injectable({
     providedIn: 'root',

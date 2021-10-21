@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Food } from 'src/app/models/food';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FoodService } from 'src/app/food.service';
+import { FoodService } from 'src/app/services/food.service';
 import { Title } from '@angular/platform-browser';
 import Swal from 'sweetalert2';
-import { CartService } from 'src/app/cart.service';
+import { CartService } from 'src/app/services/cart.service';
 
 @Component({
     selector: 'app-detail-food',

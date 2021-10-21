@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { FoodService } from 'src/app/food.service';
+import { FoodService } from 'src/app/services/food.service';
 import { Food } from 'src/app/models/food';
 import Swal from 'sweetalert2';
 

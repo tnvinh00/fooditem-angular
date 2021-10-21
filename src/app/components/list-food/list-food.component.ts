@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Food } from 'src/app/models/food';
-import { FoodService } from 'src/app/food.service';
+import { FoodService } from 'src/app/services/food.service';
 import { ToastrService } from 'ngx-toastr';
-import { CartService } from 'src/app/cart.service';
+import { CartService } from 'src/app/services/cart.service';
 import { CartItem } from 'src/app/models/cartitem';
+import { MiddlewareService } from 'src/app/services/middleware.service';
 
 @Component({
     selector: 'app-list-food',
@@ -20,6 +21,7 @@ export class ListFoodComponent implements OnInit {
     constructor(
         private foodService: FoodService,
         private cartService: CartService,
+        private middlewareService: MiddlewareService
     ) { }
 
     ngOnInit(): void {
@@ -52,5 +54,6 @@ export class ListFoodComponent implements OnInit {
 
     addtoCart(index: number) {
         this.cartService.addtoCart(this.data[index]);
+        this.middlewareService.sendUpdateCart(this.cartService.getNuberofCart())
     }
 }

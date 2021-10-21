@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Food } from './models/food';
+import { Food } from 'src/app/models/food';
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=UTF-8' })

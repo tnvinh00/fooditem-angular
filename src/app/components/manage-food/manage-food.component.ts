@@ -4,7 +4,7 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { Title } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FoodService } from 'src/app/food.service';
+import { FoodService } from 'src/app/services/food.service';
 import { Food } from 'src/app/models/food';
 import Swal from 'sweetalert2';
 
